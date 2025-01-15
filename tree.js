@@ -3,17 +3,18 @@
 // http://patreon.com/codingtrain
 // Code for: https://youtu.be/kKT0v3qhIQY
 
-function Tree() {
+
+function Tree(mode) {
   this.attractors = [];
   this.branches = [];
   this.leaves = [];
 
-  for (var i = 0; i < 1500*4; i++) {
-    this.attractors.push(new Attractor());
+  for (var i = 0; i < mode.numberOfAttractors; i++) {
+    this.attractors.push(new Attractor(mode.widthRange, mode.heightRange));
   }
   var pos = createVector(width / 2, height / 2);
   var dir = createVector(0, -1);
-  var root = new Branch(null, pos, dir);
+  var root = new Branch(null, pos, dir, mode.branchColor);
   this.branches.push(root);
   var current = root;
   var found = false;
@@ -101,9 +102,12 @@ function Tree() {
   }
 
   this.show = function() {
-    for (var i = 0; i < this.attractors.length; i++) {
-      this.attractors[i].show();
+    if(mode.displayAttractors){
+      for (var i = 0; i < this.attractors.length; i++) {
+        this.attractors[i].show();
+      }
     }
+    
 
     for (var i = 0; i < this.branches.length; i++) {
       this.branches[i].show();
